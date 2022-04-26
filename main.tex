@@ -199,10 +199,215 @@ Consider the original function that was used to generate a response:
 \hat{r_t} = \argmax_{w\in V} P(w|q, r_1...r_{t - 1})
 \]
 
-In this approach, one could choose a response based on the probability of a word given the query and the previous quesries and responses.  The advantage to this approach would be that it incorporates information that would be helpful for a conversation.  One problem with this approach is that it has been known for leading to dull responses, given that it is a greedy implementation.
+In this approach, one could choose a response based on the probability of a word given the query and the previous queries and responses.  The advantage to this approach would be that it incorporates information that would be helpful for a conversation.  One problem with this approach is that it has been known for leading to dull responses, given that it is a greedy implementation.  This can be avoided though by introducing a Maximum Mutual Information, which can decrease the number of generic responses.
+
+For example, this repository \footnote{https://github.com/pender/chatbot-rnn} is an example of a chatbot trained on an LSTM that uses MMI.
+
+\end{frame}
+
+\begin{frame}{Response by retrieving and refining knowledge}
+
+One noteable example of this is Wizard of Wikipedia, which was developed by Facebook AI research that used information retrieval and knowledge refinement to make a chatbot \cite{wiki}.  It was trained on 1365 natural, open-domain dialogue topics, each linked to a Wikipedia article and is freely available to the public \href{https://github.com/facebookresearch/ParlAI/tree/main/projects/wizard_of_wikipedia}{here}.  
+
+Just as it is described, it first retrieves the information from a set of Wikipedia articles, then, uses``extensions of the Memory Network and Transformer models that can 
+\begin{itemize}
+    \item retrieve from a
+large memory relevant information conditioned on the dialogue history
+\item carefully read and attend
+over the retrieved set of knowledge
+\item generate the next dialogue utterance. This model
+is then used consecutively on each turn to form an entire dialogue with a user."
+\end{itemize}
+\end{frame}
+
+\subsection{Hybrid Architectures}
+
+\begin{frame}{Hybrid Architectures}
+The most famous case of this architecture is in Chirpy Cardinal, the winner of the 2019 Alexa Prize competition \cite{chirpy}.  This chatbot combined the two approaches that were previously seen.
+
+\end{frame}
 
 
-This would be incredibly useful for creating responses that are 
+
+
+
+\section{Task-Oriented Dialog Systems}
+
+ 
+
+\begin{frame}{Some Background...}
+
+Task-oriented dialog systems are currently the most widely used well implemented dialogue systems available.
+
+ 
+
+Task-oriented dialog systems are typically designed based on a pre-defined, task-specific schema which makes them significantly easier to optimize than chatbots \cite{10.1145/3383123}.
+
+\end{frame}
+
+ 
+
+\begin{frame}{Task-Oriented Systems Are Easy}
+
+Task-oriented dialogue systems are not required to understand as many aspects of speech as chatbots are.
+
+ 
+
+Systems like Alexa and Google Assistant don't need to realize like personality, emotion, sentiment, or background.
+
+ 
+
+Most interaction with task-oriented systems revolve around information that is either:
+
+    \begin{itemize}
+
+        \item already understood (e.g. calendar events)
+
+        \item currently being offered (e.g. "set a timer for \underline{x}", "remind me to do \underline{x}")
+
+    \end{itemize}
+
+Because of this, it is not necessary to implement ways for them to dissect and respond to emotional context.
+
+\end{frame}
+
+ 
+
+\begin{frame}{Architecture and Design}
+
+Huang et al. name three key features that chatbots (referred to as open-domain dialog systems) must maintain for quality:
+
+    \begin{itemize}
+
+        \item Semantics
+
+        \item Consistency
+
+        \item Interactiveness
+
+    \end{itemize}
+
+Task-oriented dialog systems focus primarily on semantics.
+
+ 
+
+The architectures of these systems are designed to accomplish a requested task, and it cannot do so without proper understanding of what the user is trying to convey.
+
+\end{frame}
+
+ 
+
+\begin{frame}{Example: Cleverbot vs. Google Assistant}
+
+    \begin{columns}[T,onlytextwidth]
+
+    \column{0.5\textwidth}
+
+      Task-Oriented
+
+      \begin{description}
+
+        \item[ME] Hey, could you tell me what time it is? I'm in a rush.
+
+      \end{description}
+
+ 
+
+    \column{0.5\textwidth}
+
+      Chatbot
+
+  \end{columns}
+
+\end{frame}
+
+ 
+
+\begin{frame}{Example: Cleverbot vs. Google Assistant}
+
+    \begin{columns}[T,onlytextwidth]
+
+    \column{0.5\textwidth}
+
+      Task-Oriented
+
+      \begin{description}
+
+        \item[ME] Hey, could you tell me what time it is? I'm in a rush. \item[Google] The time is currently 8:30pm.
+
+      \end{description}
+
+ 
+
+    \column{0.5\textwidth}
+
+      Chatbot
+
+  \end{columns}
+
+\end{frame}
+
+ 
+
+\begin{frame}{Example: Cleverbot vs. Google Assistant}
+
+    \begin{columns}[T,onlytextwidth]
+
+    \column{0.5\textwidth}
+
+      Task-Oriented
+
+      \begin{description}
+
+        \item[ME] Hey, could you tell me what time it is? I'm in a rush. \item[Google] The time is currently 8:30pm.
+
+      \end{description}
+
+ 
+
+    \column{0.5\textwidth}
+
+      Chatbot
+
+      \begin{description}
+
+        \item[ME] Hey, could you tell me what time it is? I'm in a rush.
+
+      \end{description}
+
+  \end{columns}
+
+\end{frame}
+
+ 
+
+\begin{frame}{Example: Cleverbot vs. Google Assistant}
+
+    \begin{columns}[T,onlytextwidth]
+
+    \column{0.5\textwidth}
+
+      Task-Oriented
+
+      \begin{description}
+
+        \item[ME] Hey, could you tell me what time it is? I'm in a rush. \item[Google] The time is currently 8:30pm.
+
+      \end{description}
+
+ 
+
+    \column{0.5\textwidth}
+
+      Chatbot
+
+      \begin{description}
+
+        \item[ME] Hey, could you tell me what time it is? I'm in a rush. \item[Cleverbot] It's hammer time.
+
+      \end{description}
+
+  \end{columns}
 
 \end{frame}
 
@@ -218,7 +423,7 @@ Open-domain dialog systems (chatbots) have been aided greatly by neural models -
 \end{frame}
 
 \begin{frame}{Automatic Bias Identification}
-The work of Zhou et al. (2022) \cite{bias} details a method for identifying incidents of bias in large corpora.
+The work of Zhou et al. (2022) details a method for identifying incidents of bias in large corpora.
 
 Their proposed framework uses four aspects of text containing bias to make these classifications:
 \begin{itemize}
@@ -231,7 +436,7 @@ Their proposed framework uses four aspects of text containing bias to make these
 
 \begin{frame}{Data Type}
 \makebox[\linewidth]{\includegraphics[width=\paperwidth]{figure1.png}}
-Taken from \cite{bias}.
+Taken from Zhou et al (2022).
 \end{frame}
 
 \begin{frame}{Context Sensitivity}
@@ -264,216 +469,9 @@ Points of Interest
 \end{frame}
 
 \begin{frame}{Closing Thoughts on Bias}
-Zhou et al. (2022) \cite{bias} provides a firm foundation for work on identifying bias in dialog systems. 
+Zhou et al. (2022) provides a firm foundation for work on identifying bias in dialog systems. 
 
 Social bias is inevitably a complex issue to address. Unfortunately, naive solutions like simply increasing the corpus size do not solve issues of bias on their own \cite{bias2}. Future work building on this foundation is needed to continue combating pervasive bias in these systems.
-\end{frame}
-
-\begin{frame}{Lists}
-  \begin{columns}[T,onlytextwidth]
-    \column{0.33\textwidth}
-      Items
-      \begin{itemize}
-        \item Milk \item Eggs \item Potatos
-      \end{itemize}
-
-    \column{0.33\textwidth}
-      Enumerations
-      \begin{enumerate}
-        \item First, \item Second and \item Last.
-      \end{enumerate}
-
-    \column{0.33\textwidth}
-      Descriptions
-      \begin{description}
-        \item[PowerPoint] Meeh. \item[Beamer] Yeeeha.
-      \end{description}
-  \end{columns}
-\end{frame}
-\begin{frame}{Animation}
-  \begin{itemize}[<+- | alert@+>]
-    \item \alert<4>{This is\only<4>{ really} important}
-    \item Now this
-    \item And now this
-  \end{itemize}
-\end{frame}
-\begin{frame}{Figures}
-  \begin{figure}
-    \newcounter{density}
-    \setcounter{density}{20}
-    \begin{tikzpicture}
-      \def\couleur{alerted text.fg}
-      \path[coordinate] (0,0)  coordinate(A)
-                  ++( 90:5cm) coordinate(B)
-                  ++(0:5cm) coordinate(C)
-                  ++(-90:5cm) coordinate(D);
-      \draw[fill=\couleur!\thedensity] (A) -- (B) -- (C) --(D) -- cycle;
-      \foreach \x in {1,...,40}{%
-          \pgfmathsetcounter{density}{\thedensity+20}
-          \setcounter{density}{\thedensity}
-          \path[coordinate] coordinate(X) at (A){};
-          \path[coordinate] (A) -- (B) coordinate[pos=.10](A)
-                              -- (C) coordinate[pos=.10](B)
-                              -- (D) coordinate[pos=.10](C)
-                              -- (X) coordinate[pos=.10](D);
-          \draw[fill=\couleur!\thedensity] (A)--(B)--(C)-- (D) -- cycle;
-      }
-    \end{tikzpicture}
-    \caption{Rotated square from
-    \href{http://www.texample.net/tikz/examples/rotated-polygons/}{texample.net}.}
-  \end{figure}
-\end{frame}
-\begin{frame}{Tables}
-  \begin{table}
-    \caption{Largest cities in the world (source: Wikipedia)}
-    \begin{tabular}{lr}
-      \toprule
-      City & Population\\
-      \midrule
-      Mexico City & 20,116,842\\
-      Shanghai & 19,210,000\\
-      Peking & 15,796,450\\
-      Istanbul & 14,160,467\\
-      \bottomrule
-    \end{tabular}
-  \end{table}
-\end{frame}
-\begin{frame}{Blocks}
-  Three different block environments are pre-defined and may be styled with an
-  optional background color.
-
-  \begin{columns}[T,onlytextwidth]
-    \column{0.5\textwidth}
-      \begin{block}{Default}
-        Block content.
-      \end{block}
-
-      \begin{alertblock}{Alert}
-        Block content.
-      \end{alertblock}
-
-      \begin{exampleblock}{Example}
-        Block content.
-      \end{exampleblock}
-
-    \column{0.5\textwidth}
-
-      \metroset{block=fill}
-
-      \begin{block}{Default}
-        Block content.
-      \end{block}
-
-      \begin{alertblock}{Alert}
-        Block content.
-      \end{alertblock}
-
-      \begin{exampleblock}{Example}
-        Block content.
-      \end{exampleblock}
-
-  \end{columns}
-\end{frame}
-\begin{frame}{Math}
-  \begin{equation*}
-    e = \lim_{n\to \infty} \left(1 + \frac{1}{n}\right)^n
-  \end{equation*}
-\end{frame}
-\begin{frame}{Line plots}
-  \begin{figure}
-    \begin{tikzpicture}
-      \begin{axis}[
-        mlineplot,
-        width=0.9\textwidth,
-        height=6cm,
-      ]
-
-        \addplot {sin(deg(x))};
-        \addplot+[samples=100] {sin(deg(2*x))};
-
-      \end{axis}
-    \end{tikzpicture}
-  \end{figure}
-\end{frame}
-\begin{frame}{Bar charts}
-  \begin{figure}
-    \begin{tikzpicture}
-      \begin{axis}[
-        mbarplot,
-        xlabel={Foo},
-        ylabel={Bar},
-        width=0.9\textwidth,
-        height=6cm,
-      ]
-
-      \addplot plot coordinates {(1, 20) (2, 25) (3, 22.4) (4, 12.4)};
-      \addplot plot coordinates {(1, 18) (2, 24) (3, 23.5) (4, 13.2)};
-      \addplot plot coordinates {(1, 10) (2, 19) (3, 25) (4, 15.2)};
-
-      \legend{lorem, ipsum, dolor}
-
-      \end{axis}
-    \end{tikzpicture}
-  \end{figure}
-\end{frame}
-\begin{frame}{Quotes}
-  \begin{quote}
-    Veni, Vidi, Vici
-  \end{quote}
-\end{frame}
-
-{%
-\setbeamertemplate{frame footer}{My custom footer}
-\begin{frame}[fragile]{Frame footer}
-    \themename defines a custom beamer template to add a text to the footer. It can be set via
-    \begin{verbatim}\setbeamertemplate{frame footer}{My custom footer}\end{verbatim}
-\end{frame}
-}
-
-\begin{frame}{References}
-  Some references to showcase [allowframebreaks] \cite{knuth92,ConcreteMath,Simpson,Er01,greenwade93}
-\end{frame}
-
-\section{Conclusion}
-
-\begin{frame}{Summary}
-
-  Get the source of this theme and the demo presentation from
-
-  \begin{center}\url{github.com/matze/mtheme}\end{center}
-
-  The theme \emph{itself} is licensed under a
-  \href{http://creativecommons.org/licenses/by-sa/4.0/}{Creative Commons
-  Attribution-ShareAlike 4.0 International License}.
-
-  \begin{center}\ccbysa\end{center}
-
-\end{frame}
-
-{\setbeamercolor{palette primary}{fg=black, bg=yellow}
-\begin{frame}[standout]
-  Questions?
-\end{frame}
-}
-
-\appendix
-
-\begin{frame}[fragile]{Backup slides}
-  Sometimes, it is useful to add slides at the end of your presentation to
-  refer to during audience questions.
-
-  The best way to do this is to include the \verb|appendixnumberbeamer|
-  package in your preamble and call \verb|\appendix| before your backup slides.
-
-  \themename will automatically turn off slide numbering and progress bars for
-  slides in the appendix.
-\end{frame}
-
-\begin{frame}[allowframebreaks]{References}
-
-  \bibliography{demo}
-  \bibliographystyle{abbrv}
-
 \end{frame}
 
 \end{document}
