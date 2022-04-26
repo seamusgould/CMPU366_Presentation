@@ -206,6 +206,69 @@ This would be incredibly useful for creating responses that are
 
 \end{frame}
 
+\section[Bias in Dialog Systems]{Bias in Dialog Systems}
+
+\begin{frame}{Where's the bias?}
+Open-domain dialog systems (chatbots) have been aided greatly by neural models - but these models require huge corpora in order to function well. With these large chunks of data come various issues, including slurs, toxic behaviors, and other expressions of prejudice.
+\begin{itemize}
+    \item Such behavior leaking into your chatbot would be disastrous!
+    \item But how do you deal with bias when working with such large datasets?
+    \item Before you can address the bias, you need to be able to find it all in a timely and efficient manner.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Automatic Bias Identification}
+The work of Zhou et al. (2022) \cite{bias} details a method for identifying incidents of bias in large corpora.
+
+Their proposed framework uses four aspects of text containing bias to make these classifications:
+\begin{itemize}
+    \item Data Type
+    \item Context-Sensitivity
+    \item Targeted Group
+    \item Implied Attitude
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Data Type}
+\makebox[\linewidth]{\includegraphics[width=\paperwidth]{figure1.png}}
+Taken from \cite{bias}.
+\end{frame}
+
+\begin{frame}{Context Sensitivity}
+"Context sensitivity" refers to if a piece of text can be fully understood without the surrounding text accompanying it. For example, "That must be true" does not reveal any bias on its own, but is blatantly biased if it is the answer to something like, "[Target Group] lacks initiative in the workforce."
+\end{frame}
+
+\begin{frame}{Targeted Group and Implied Attitude}
+"Targeted Group" unsurprising refers to the group being targeted by a case of bias.
+
+"Implied Attitude" refers to the attitude of the speaker towards the subject. For example, it is important not to label academic discussions of bias as examples of bias.
+\end{frame}
+
+\begin{frame}{Does the model work?}
+Human annotation is used to create the training set for the model, which can then be run on new corpora.
+
+The model achieved an F1 score of 76.9 when tasked with automatically tagging incidents of relevant bias and an F1 of 64.6 at predicting Implied Attitude in incidents of bias.
+
+These F1 scores are for tasks where all topics of bias are present, and the model is trained with all topics of bias in mind.
+\end{frame}
+
+\begin{frame}
+Points of Interest
+\begin{itemize}
+    \item Some cases of bias were harder to detect than others! For example, the model performed better at tagging relevant racial bias than gender bias.
+    \item Other biases, based on region or occupation, proved even more difficult.
+    \item Specifying the type of bias (e.g. limiting a data set to only cases of gender bias) aided in performance. 
+    \item Incorporating the context of cases of bias when sensitive to context was beneficial to performance, showcasing one strength of this model.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Closing Thoughts on Bias}
+Zhou et al. (2022) \cite{bias} provides a firm foundation for work on identifying bias in dialog systems. 
+
+Social bias is inevitably a complex issue to address. Unfortunately, naive solutions like simply increasing the corpus size do not solve issues of bias on their own \cite{bias2}. Future work building on this foundation is needed to continue combating pervasive bias in these systems.
+\end{frame}
+
 \begin{frame}{Lists}
   \begin{columns}[T,onlytextwidth]
     \column{0.33\textwidth}
